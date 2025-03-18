@@ -1,0 +1,292 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>User Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #0f172a, #1e293b);
+            color: #ffffff;
+        }
+        .nav-button {
+            transition: transform 0.3s ease, background-color 0.3s ease, border-radius 0.3s ease;
+            background: linear-gradient(to right, #8b5cf6, #ec4899, #f43f5e);
+            border-radius: 0.5rem;
+        }
+        .nav-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(to right, #f43f5e, #ec4899, #8b5cf6);
+            animation: pull 0.3s ease-out;
+            border-radius: 0.25rem;
+        }
+        .navbar {
+            animation: slideIn 1s ease-out;
+            background: linear-gradient(to right, #1e293b, #0f172a);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes pull {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+        .greeting {
+            background: linear-gradient(to right, #8b5cf6, #ec4899, #f43f5e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        section {
+            padding: 4rem 0;
+            margin-top: 5rem;
+        }
+        .content {
+            background: linear-gradient(to right, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            margin-top: 2rem;
+            display: flex; /* Use flexbox to align video and table */
+            justify-content: space-between; /* Space between video and table */
+            min-height: 600px; /* Increased minimum height for the gradient division */
+        }
+        .content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .content p {
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+        }
+        .video-frame {
+            margin-top: 0rem;
+            border: 2px solid #8b5cf6;
+            border-radius: 10px;
+            overflow: hidden;
+            flex: 1; /* Allow the video frame to take the remaining space */
+            margin-right: 20px; /* Space between video and table */
+            max-height: 600px; /* Increased height for the video frame */
+        }
+        .table-container {
+            max-width: 300px; /* Fixed width for the table */
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 600px; /* Increased height for the table container */
+            border: 2px solid #8b5cf6;
+            border-radius: 10px;
+            background: rgba(30, 41, 59, 0.8);
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #8b5cf6;
+        }
+        .table th {
+            background-color: #8b5cf6;
+            color: white;
+        }
+        .table tr:hover {
+            background-color: rgba(139, 92, 246, 0.3);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        .modal-content {
+            background: rgba(30, 41, 59, 0.8);
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .navbar-logo {
+            width: 100px; /* Adjust as needed */
+            height: auto; /* Keeps aspect ratio */
+            border-radius: 10px;
+        }
+                .date-time {
+            position: absolute; /* Position it absolutely within the content */
+            top: 10px; /* Adjust as needed */
+            right: 20px; /* Adjust as needed */
+            font-size: 1.125rem; /* Font size for date and time */
+            color: #ffffff; /* Text color */
+            text-align: right; /* Align text to the right */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <header class="flex justify-between items-center mb-12 navbar">
+            <div class="flex items-center">
+                <img alt="Logo" class="mr-4 navbar-logo" src="{% static 'img/logo4.jpg' %}"/>
+                <h1 class="text-2xl font-bold greeting">
+                    Welcome back, {{ user.name }}!  <!-- Dynamically display user's name -->
+                </h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li>
+                        <a class="nav-button text-white py-2 px-4" href="#" id="profile-button">
+                            P
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-button text-white py-2 px-4" href="{% url 'home' %}">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main class="text-center">
+            <section>
+                <div class="content">
+                    <div class="video-frame">
+    {% if video_available %}
+        <!-- Embed the Google Drive video using an iframe -->
+        <iframe
+            id="videoFrame"
+            src="{{ processed_video }}"
+            width="100%"
+            height="100%"
+            frameborder="0"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+        </iframe>
+    {% else %}
+        <div class="no-video-message">
+            <h2>No violence yet detected</h2>
+        </div>
+    {% endif %}
+</div>
+<div class="table-container">
+    <h4 class="text-xl font-bold mb-2 text-center">Detected Violence</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Sl No</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for timestamp, video_url, index in previous_results %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <button class="date-button" onclick="changeVideo('{{ video_url }}')">
+                            {{ timestamp }}
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+                </div>
+            </section>
+        </main>
+    </div>
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <span class="close" id="close-profile">×</span>
+            <div class="profile-content">
+                <h3 class="text-2xl font-bold mb-4">User   Profile</h3>
+                <p class="text-lg">
+                    <strong>Username:</strong> {{ user.name }}  <!-- Dynamically display username -->
+                </p>
+                <p class="text-lg">
+                    <strong>Email:</strong> {{ user.email }}  <!-- Dynamically display email -->
+                </p>
+                <p class="text-lg">
+                    <strong>Creation Date:</strong> {{ user.service_creation_date }}  <!-- Dynamically display creation date -->
+                </p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('profile-button').addEventListener('click', function() {
+            var profileModal = document.getElementById('profileModal');
+            profileModal.style.display = "block";
+        });
+
+        document.getElementById('close-profile').addEventListener('click', function() {
+            var profileModal = document.getElementById('profileModal');
+            profileModal.style.display = "none";
+        });
+
+        window.onclick = function(event) {
+            var profileModal = document.getElementById('profileModal');
+            if (event.target == profileModal) {
+                profileModal.style.display = "none";
+            }
+        }
+
+
+
+    function changeVideo(videoUrl) {
+        var videoFrame = document.getElementById('videoFrame');
+        videoFrame.src = videoUrl.replace("/view?usp=sharing", "/preview"); // Ensure the URL is formatted correctly
+    }
+
+    </script>
+</body>
+</html>

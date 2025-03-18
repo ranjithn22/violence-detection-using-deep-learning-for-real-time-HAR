@@ -1,0 +1,437 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>
+        Home Page
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b, #2d3748, #4a5568);
+            color: #ffffff;
+        }
+        .nav-button {
+            transition: transform 0.3s ease, background-color 0.3s ease, border-radius 0.3s ease;
+            background: linear-gradient(to right, #8b5cf6, #ec4899, #f43f5e);
+            border-radius: 0.5rem;
+        }
+        .nav-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(to right, #f43f5e, #ec4899, #8b5cf6);
+            animation: pull 0.3s ease-out;
+            border-radius: 0.25rem;
+        }
+        .navbar {
+            animation: slideIn 1s ease-out;
+            background: linear-gradient(to right, #1e293b, #0f172a);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes pull {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        .modal-content {
+            background: rgba(30, 41, 59, 0.8);
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-button {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            background: linear-gradient(to right, #8b5cf6, #ec4899, #f43f5e);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .modal-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(to right, #f43f5e, #ec4899, #8b5cf6);
+        }
+        section {
+            padding: 4rem 0;
+            margin-top: 5rem;
+        }
+
+        .aboutus-content, .home-content {
+            background: linear-gradient(to right, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            margin-top: 2rem;
+        }
+        .aboutus-content h3, .home-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .aboutus-content p, .home-content p {
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border-radius: 0.25rem;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+            color: black;
+        }
+        .form-input:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+        }
+        .form-select {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border-radius: 0.25rem;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+            color: black;
+        }
+        .form-select:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+        }
+        .form-button {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            background: linear-gradient(to right, #8b5cf6, #ec4899, #f43f5e);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 10px 0;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+        }
+        .form-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(to right, #f43f5e, #ec4899, #8b5cf6);
+        }
+                /* Include your CSS styles here */
+.slider {
+    position: relative;
+    overflow: hidden;
+    height: 60vh;
+    width: 80%; /* Set the width of the slider */
+    margin: 0 auto; /* Center the slider */
+}
+
+.slider img {
+    position: absolute;
+    width: 100%; /* Make images responsive to the slider width */
+    height: auto;
+    transition: transform 1s ease; /* Smooth transition for sliding */
+}
+        .navbar-logo {
+    width: 100px; /* Adjust as needed */
+    height: auto; /* Keeps aspect ratio */
+    border-radius: 10px;
+}
+.try-now-button {
+    background: linear-gradient(to right, #34d399, #3b82f6); /* Green to blue gradient */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 20px;
+    display: inline-block;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.try-now-button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(to right, #3b82f6, #34d399); /* Reverse gradient on hover */
+}
+        section {
+            padding: 2rem 0; /* Reduced padding */
+            margin-top: 2rem; /* Adjust margin-top if needed */
+        }
+        /* Other styles remain unchanged */
+    </style>
+</head>
+<body>
+<div class="container mx-auto px-4 py-8">
+    <header class="flex justify-between items-center mb-12 navbar">
+        <div class="flex items-center">
+            <img alt="Logo" class="mr-4 navbar-logo" src="{% static 'img/logo4.jpg' %}"/>
+
+
+        </div>
+        <nav>
+            <div class="md:hidden">
+                <button class="text-white focus:outline-none" id="menu-button">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <ul class="hidden md:flex space-x-4" id="menu">
+                <li>
+                    <a class="nav-button text-white py-2 px-4" href="#home">Home</a>
+                </li>
+                <li>
+                    <a class="nav-button text-white py-2 px-4" href="#aboutus">About Us</a>
+                </li>
+                <li>
+                    <a class="nav-button text-white py-2 px-4" href="#" id="register-button">Register</a>
+                </li>
+                <li>
+                    <a class="nav-button text-white py-2 px-4" href="#" id="login-button">Login</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+        <main class="text-center">
+        {% if messages %}
+            <div class="alert alert-success" id="success-message">
+                {% for message in messages %}
+                    <p class="text-green-500">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+            {% if error %}
+        <div class="alert alert-danger text-red-500" id="error-message">
+            <p>{{ error }}</p>
+        </div>
+    {% endif %}
+        <section id="home">
+            <h2 class="text-4xl font-bold ">Welcome to VioX</h2>
+            <p class="text-lg">Harnessing the Power of Artificial Intelligence to Create a World Where Threats Are Identified Instantly and Violence Is monitored.</p>
+            <div class="home-content">
+                <div class="slider" id="slider">
+                    <img alt="Image 1" src="{% static 'img/img2.png' %}" style="transform: translateX(0);"/>
+                    <img alt="Image 2" src="https://cdn.prod.website-files.com/628905bae461d31c437ea344/666032dd965f044d50be45ba_Violence_Detection_Visual_2.webp" style="transform: translateX(100%);"/>
+                    <img alt="Image 3" src="https://www.staqu.com/wp-content/uploads/2023/01/Violence-Detection-1.jpg" style="transform: translateX(100%);"/>
+                    <img alt="Image 4" src="https://i.ytimg.com/vi/etXHeeS2D40/maxresdefault.jpg" style="transform: translateX(100%);"/>
+                    <img alt="Image 5" src="{% static 'img/img5.png' %}" style="transform: translateX(100%);"/>
+                </div>
+
+            </div>
+            <a href="{% url 'index' %}" class="try-now-button">Try Now</a>
+        </section>
+                  <section id="aboutus">
+            <h2 class="text-4xl font-bold mb-4">About Us</h2>
+            <div class="aboutus-content">
+                <h3 class="text-2xl font-bold mb-4">Violence Detection System</h3>
+                <p class="text-lg">Our advanced Violence Detection System is designed to enhance security in streets, schools, and public areas. Utilizing cutting-edge AI technology, our system can detect violent activities in real-time, providing instant alerts to authorities and ensuring a swift response to potential threats.</p>
+                <p class="text-lg mt-4">The system is equipped with high-definition cameras and sophisticated algorithms that analyze video feeds to identify suspicious behavior. It can be integrated with existing security infrastructure, making it a versatile solution for various environments.</p>
+                <p class="text-lg mt-4">By implementing our Violence Detection System, communities can benefit from increased safety and peace of mind, knowing that proactive measures are in place to prevent and respond to violent incidents.</p>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Registration Modal -->
+<div class="modal" id="registerModal">
+    <div class="modal-content">
+        <span class="close" id="close-register">×</span>
+        <div class="register-content">
+            <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                <input class="form-input" name="name" placeholder="Full Name" type="text" required/>
+                <input class="form-input" name="email" placeholder="Email" type="email" required/>
+                <input class="form-input" name="phoneno" placeholder="Phone No" type="tel" required/>
+                <input class="form-input" name="password" placeholder="Create Password" type="password" required/>
+                <input class="form-input" name="address" placeholder="Address" type="text" required/>
+
+                <input class="form-input" name="details" placeholder="Details" type="text"/>
+                <button class="form-button" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <span class="close" id="close-login">×</span>
+        <div class="login-content">
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <input class="form-input" name="username" placeholder="Email" type="text" required/>
+                <input class="form-input" name="password" placeholder="Password" type="password" required/>
+                <button class="form-button" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Main Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-content">
+        <span class="close" id="close-button">×</span>
+        <div>
+            <a class="modal-button text-white block" href="#home">Home</a>
+        </div>
+        <div>
+            <a class="modal-button text-white block" href="#aboutus">About Us</a>
+        </div>
+        <div>
+            <a class="modal-button text-white block" href="#" id="register-button-modal">Register</a>
+        </div>
+        <div>
+            <a class="modal-button text-white block" href="#" id="login-button-modal">Login</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('menu-button').addEventListener('click', function() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = "block";
+    });
+
+    document.getElementById('close-button').addEventListener('click', function() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = "none";
+    });
+
+        document.querySelector('a[href="#aboutus"]').addEventListener('click', function(event) {
+        event.preventDefault();
+        const targetSection = document.getElementById('aboutus');
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    window.onclick = function(event) {
+        var modal = document.getElementById('myModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    document.getElementById('login-button').addEventListener('click', function() {
+        var loginModal = document.getElementById('loginModal');
+        loginModal.style.display = "block";
+    });
+
+    document.getElementById('close-login').addEventListener('click', function() {
+        var loginModal = document.getElementById('loginModal');
+        loginModal.style.display = "none";
+    });
+
+    window.onclick = function(event) {
+        var loginModal = document.getElementById('loginModal');
+        if (event.target == loginModal) {
+            loginModal.style.display = "none";
+        }
+    }
+
+    document.getElementById('register-button').addEventListener('click', function() {
+        var registerModal = document.getElementById('registerModal');
+        registerModal.style.display = "block";
+    });
+
+    document.getElementById('close-register').addEventListener('click', function() {
+        var registerModal = document.getElementById('registerModal');
+        registerModal.style.display = "none";
+    });
+
+    window.onclick = function(event) {
+        var registerModal = document.getElementById('registerModal');
+        if (event.target == registerModal) {
+            registerModal.style.display = "none";
+        }
+    }
+
+    document.getElementById('login-button-modal').addEventListener('click', function() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = "none";
+        var loginModal = document.getElementById('loginModal');
+        loginModal.style.display = "block";
+    });
+
+    document.getElementById('register-button-modal').addEventListener('click', function() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = "none";
+        var registerModal = document.getElementById('registerModal');
+        registerModal.style.display = "block";
+    });
+
+    // Automatic image slider functionality
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.slider img');
+    const totalImages = images.length;
+
+    function showNextImage() {
+        images[currentIndex].style.transform = 'translateX(-100%)'; // Slide out current image
+        currentIndex = (currentIndex + 1) % totalImages; // Move to next image
+        images[currentIndex].style.transform = 'translateX(0)'; // Slide in next image
+    }
+
+    setInterval(showNextImage, 2000);
+      // Hide the success message after 2 seconds
+
+    window.onload = function() {
+    const successMessage = document.getElementById('success-message');
+    const errorMessage = document.getElementById('error-message');
+
+    if (successMessage) {
+        setTimeout(() => {
+            successMessage.style.display = 'none';
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+
+    if (errorMessage) {
+        setTimeout(() => {
+            errorMessage.style.display = 'none';
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+};
+</script>
+</body>
+</html>
