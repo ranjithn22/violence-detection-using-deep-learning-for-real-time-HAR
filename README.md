@@ -1,7 +1,7 @@
 # violence-detection-using-deep-learning-for-real-time-HAR
 This repository contains the implementation of "Video Surveillance System Using Deep Learning for Real-Time Human Action Recognition (HAR)". The system is designed for real-time violence detection using deep learning techniques, integrating YOLO for object detection and GRU for temporal sequence modeling.
 
- Overview 
+ Overview :
  This project implements an AI-powered surveillance system for real-time Human Action Recognition (HAR), specifically focusing on violence detection. Using YOLO for spatial feature extraction and Gated Recurrent Units (GRU) for temporal sequence modeling, the system accurately detects violent actions in live video streams or uploaded footage.
 
 🔹 Technologies Used: YOLO, GRU, OpenCV, Django, Twilio API
